@@ -26,6 +26,8 @@ import static com.android.launcher3.states.RotationHelper.ALLOW_ROTATION_PREFERE
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -53,8 +55,12 @@ import com.android.launcher3.BuildConfig;
 import com.android.launcher3.Flags;
 import com.android.launcher3.LauncherFiles;
 import com.android.launcher3.R;
+import com.android.launcher3.customization.IconDatabase;
+import com.android.launcher3.util.AppReloader;
 import com.android.launcher3.lineage.LineageUtils;
 import com.android.launcher3.lineage.trust.TrustAppsActivity;
+import com.android.launcher3.settings.preference.IconPackPrefSetter;
+import com.android.launcher3.settings.preference.ReloadingListPreference;
 import com.android.launcher3.states.RotationHelper;
 import com.android.launcher3.util.DisplayController;
 import com.android.launcher3.util.SettingsCache;
@@ -86,6 +92,8 @@ public class SettingsActivity extends FragmentActivity
 
     private static final String KEY_SUGGESTIONS = "pref_suggestions";
     private static final String SUGGESTIONS_PACKAGE = "com.google.android.as";
+
+    private static final String KEY_ICON_PACK = "pref_icon_pack";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,6 +186,8 @@ public class SettingsActivity extends FragmentActivity
         private String mHighLightKey;
 
         private boolean mPreferenceHighlighted = false;
+
+        private ReloadingListPreference mIconPackPref;
 
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -337,6 +347,19 @@ public class SettingsActivity extends FragmentActivity
 
                 case KEY_SUGGESTIONS:
                     return LineageUtils.isPackageEnabled(getActivity(), SUGGESTIONS_PACKAGE);
+
+                case KEY_ICON_PACK:
+                    mIconPackPref = (ReloadingListPreference) preference;
+                    mIconPackPref.setValue(IconDatabase.getGlobal(getActivity()));
+                    mIconPackPref.setOnReloadListener(IconPackPrefSetter::new);
+                    mIconPackPref.setIcon(getPackageIcon(IconDatabase.getGlobal(getActivity())));
+                    mIconPackPref.setOnPreferenceChangeListener((pref, val) -> {
+                        IconDatabase.clearAll(getActivity());
+                        IconDatabase.setGlobal(getActivity(), (String) val);
+                        mIconPackPref.setIcon(getPackageIcon((String) val));
+                        AppReloader.get(getActivity()).reload();
+                        return true;
+                    });
             }
 
             return true;
@@ -409,5 +432,19 @@ public class SettingsActivity extends FragmentActivity
                     list, position, screen.findPreference(mHighLightKey))
                     : null;
         }
+
+        private Drawable getPackageIcon(String pkgName) {
+            Drawable icon = getContext().getResources().
+                              getDrawable(com.android.internal.R.drawable.sym_def_app_icon);
+            try {
+                 icon = getContext().getPackageManager().
+                              getApplicationIcon(pkgName);
+            } catch (PackageManager.NameNotFoundException e) {  }
+            return icon;
+        }
+    }
+
+    public interface OnResumePreferenceCallback {
+        void onResume();
     }
 }
