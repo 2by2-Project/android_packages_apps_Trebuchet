@@ -32,7 +32,8 @@
         <com.android.launcher3.qsb.AssistantIconView
             android:id="@+id/mic_icon"
             android:layout_width="@dimen/qsb_icon_width"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginStart="-6dp"
             android:background="@drawable/pill_ripple"
             android:clickable="true"
@@ -45,7 +46,8 @@
         <ImageButton
             android:id="@+id/lens_icon"
             android:layout_width="@dimen/qsb_icon_width"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginStart="-6dp"
             android:background="@drawable/pill_ripple"
             android:clickable="true"
