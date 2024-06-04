@@ -64,6 +64,7 @@ import com.android.launcher3.util.MainThreadInitializedObject;
 import com.android.launcher3.util.Partner;
 import com.android.launcher3.util.WindowBounds;
 import com.android.launcher3.util.window.WindowManagerProxy;
+import com.android.launcher3.LauncherAppState;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -360,8 +361,13 @@ public class InvariantDeviceProfile implements OnSharedPreferenceChangeListener 
             case KEY_ALLAPPS_THEMED_ICONS:
             case KEY_SHOW_DESKTOP_LABELS:
             case KEY_SHOW_DRAWER_LABELS:
+                onConfigChanged(mContext);
+                break;
+
+            // Restart needed
             case KEY_DOCK_SEARCH:
                 onConfigChanged(mContext);
+                LauncherAppState.getInstanceNoCreate().setNeedsRestart();
                 break;
         }
     }
