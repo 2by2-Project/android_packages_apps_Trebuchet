@@ -30,15 +30,16 @@
 
     <!-- Communication Folder -->
     <folder
+        launcher:container="-101"
         launcher:title="@string/communication_folder_title"
         launcher:screen="2"
         launcher:x="2"
         launcher:y="0">
         <favorite
             launcher:packageName="org.thoughtcrime.securesms"
-            launcher:className="org.thoughtcrime.securesms.ConversationListActivity" />
+            launcher:className="org.thoughtcrime.securesms.MainActivity" />
         <favorite
-            launcher:packageName="jp.naver.line"
+            launcher:packageName="jp.naver.line.android"
             launcher:className="jp.naver.line.android.activity.SplashActivity"/>
     </folder>
 
@@ -168,41 +169,26 @@
     </resolve>
 
     <!-- Screen 1 -->
-    
-    <!-- Calendar Widget -->
-    <resolve
-        launcher:screen="1"
-        launcher:x="0"
-        launcher:y="0"
-        launcher:spanX="5"
-        launcher:spanY="2" >
-        <appwidget
-            launcher:packageName="com.google.android.calendar"
-            launcher:className="com.android.calendar.widget.CalendarAppWidgetProvider" />
-        <appwidget
-            launcher:packageName="org.lineageos.etar"
-            launcher:className="com.android.calendar.widget.CalendarAppWidgetProvider" />
-    </resolve>
 
     <!-- Calendar Widget (Gapps) -->
-    <!--<appwidget
+    <appwidget
         launcher:screen="1"
         launcher:x="0"
         launcher:y="0"
         launcher:spanX="5"
         launcher:spanY="2"
         launcher:packageName="com.google.android.calendar"
-        launcher:className="com.android.calendar.widget.CalendarAppWidgetProvider" />-->
+        launcher:className="com.android.calendar.widget.CalendarAppWidgetProvider" />
 
     <!-- Calendar Widget (Vanilla) -->
-    <!--<appwidget
+    <appwidget
         launcher:screen="1"
         launcher:x="0"
         launcher:y="0"
         launcher:spanX="5"
         launcher:spanY="2"
         launcher:packageName="org.lineageos.etar"
-        launcher:className="com.android.calendar.widget.CalendarAppWidgetProvider" />-->
+        launcher:className="com.android.calendar.widget.CalendarAppWidgetProvider" />
 
     <!-- Tools Folder -->
     <folder
@@ -217,9 +203,6 @@
         <favorite
             launcher:packageName="io.chaldeaprjkt.gamespace"
             launcher:className="io.chaldeaprjkt.gamespace.settings.SettingsActivity" />
-        <favorite
-            launcher:packageName="org.omnirom.logcat"
-            launcher:className="com.pluscubed.logcat.ui.LogcatActivity" />
         <favorite
             launcher:packageName="com.google.android.apps.safetyhub"
             launcher:className="com.google.android.apps.safetyhub.LauncherActivity" />
@@ -245,24 +228,68 @@
             launcher:packageName="com.google.android.calculator"
             launcher:className="com.android.calculator2.Calculator" />
         <favorite
-            launcher:uri="#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_CONTACTS;end" />
-        <favorite
             launcher:packageName="com.caf.fmradio"
             launcher:className="com.caf.fmradio.FMRadio" />
 
     </folder>
 
     <favorite
+        launcher:packageName="com.coke.cokeon"
+        launcher:className="jp.co.cocacola.vmapp.ui.start.SplashActivity"
+        launcher:screen="1"
+        launcher:x="1"
+        launcher:y="-1" />
+
+    <favorite
+        launcher:packageName="jp.ne.paypay.android.app"
+        launcher:className="jp.ne.paypay.android.app.MainActivity"
+        launcher:screen="1"
+        launcher:x="2"
+        launcher:y="-1" />
+
+    <favorite
+        launcher:packageName="jp.nicovideo.android"
+        launcher:className="jp.nicovideo.android.StartupActivity"
+        launcher:screen="1"
+        launcher:x="3"
+        launcher:y="-1" />
+
+    <favorite
+        launcher:uri="#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_CONTACTS;end"
+        launcher:screen="1"
+        launcher:x="4"
+        launcher:y="-1" />
+
+    <!-- Screen 2 -->
+
+    <!-- Misc Folder -->
+    <folder
+        launcher:title="@string/misc_folder_title"
+        launcher:screen="2"
+        launcher:x="0"
+        launcher:y="-1">
+
+        <favorite
+            launcher:packageName="me.weishu.kernelsu"
+            launcher:className="me.weishu.kernelsu.ui.MainActivity" />
+
+        <favorite
+            launcher:packageName="org.omnirom.logcat"
+            launcher:className="com.pluscubed.logcat.ui.LogcatActivity" />
+
+    </folder>
+
+    <favorite
         launcher:packageName="com.android.documentsui"
         launcher:className="com.android.documentsui.LauncherActivity"
-        launcher:screen="1"
+        launcher:screen="2"
         launcher:x="3"
         launcher:y="-1" />
 
     <favorite
         launcher:packageName="com.android.settings"
         launcher:className="com.android.settings.Settings"
-        launcher:screen="1"
+        launcher:screen="2"
         launcher:x="4"
         launcher:y="-1" />
 
