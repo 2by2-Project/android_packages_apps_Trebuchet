@@ -36,9 +36,6 @@
         launcher:x="2"
         launcher:y="0">
         <favorite
-            launcher:packageName="org.thoughtcrime.securesms"
-            launcher:className="org.thoughtcrime.securesms.MainActivity" />
-        <favorite
             launcher:packageName="jp.naver.line.android"
             launcher:className="jp.naver.line.android.activity.SplashActivity"/>
     </folder>
@@ -106,41 +103,17 @@
             launcher:packageName="com.google.android.googlequicksearchbox"
             launcher:className="com.google.android.googlequicksearchbox.SearchActivity"/>
         <favorite
-            launcher:packageName="com.google.android.gm"
-            launcher:className="com.google.android.gm.ConversationListActivityGmail"/>
+            launcher:packageName="com.google.android.apps.photos"
+            launcher:className="com.google.android.apps.photos.home.HomeActivity"/>
         <favorite
-            launcher:packageName="com.google.android.apps.maps"
-            launcher:className="com.google.android.maps.MapsActivity"/>
-        <favorite
-            launcher:packageName="com.google.android.youtube"
-            launcher:className="com.google.android.youtube.app.honeycomb.Shell$HomeActivity"/>
-        <favorite
-            launcher:packageName="com.google.android.apps.docs"
-            launcher:className="com.google.android.apps.docs.app.NewMainProxyActivity"/>
+            launcher:packageName="com.google.android.keep"
+            launcher:className="com.google.android.apps.keep.ui.activities.BrowseActivity"/>
         <favorite
             launcher:packageName="com.google.android.apps.youtube.music"
             launcher:className="com.google.android.apps.youtube.music.activities.MusicActivity"/>
         <favorite
-            launcher:packageName="com.google.android.videos"
-            launcher:className="com.google.android.youtube.videos.EntryPoint"/>
-        <favorite
-            launcher:packageName="com.google.android.apps.tachyon"
-            launcher:className="com.google.android.apps.tachyon.MainActivity"/>
-        <favorite
-            launcher:packageName="com.google.android.apps.photos"
-            launcher:className="com.google.android.apps.photos.home.HomeActivity"/>
-        <favorite
-            launcher:packageName="com.google.android.apps.plus"
-            launcher:className="com.google.android.apps.plus.phone.HomeActivity" />
-        <favorite
-            launcher:packageName="com.google.android.play.games"
-            launcher:className="com.google.android.gms.games.ui.destination.main.MainActivity" />
-        <favorite
-            launcher:packageName="com.google.android.apps.books"
-            launcher:className="com.google.android.apps.books.app.BooksActivity" />
-        <favorite
-            launcher:packageName="com.google.android.apps.magazines"
-            launcher:className="com.google.apps.dots.android.app.activity.CurrentsStartActivity" />
+            launcher:packageName="com.google.android.apps.walletnfcrel" 
+            launcher:className="com.google.android.apps.wallet.main.WalletActivity"/>
     </folder>
 
     <!-- DeskClock (Gapps: Google DeskClock | Vanilla: AOSP DeskClock) -->
@@ -197,15 +170,6 @@
         launcher:x="0"
         launcher:y="-1">
 
-        <!--<favorite launcher:uri="#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_GALLERY;end" />
-        <favorite launcher:uri="#Intent;type=images/*;end" />-->
-
-        <favorite
-            launcher:packageName="io.chaldeaprjkt.gamespace"
-            launcher:className="io.chaldeaprjkt.gamespace.settings.SettingsActivity" />
-        <favorite
-            launcher:packageName="com.google.android.apps.safetyhub"
-            launcher:className="com.google.android.apps.safetyhub.LauncherActivity" />
         <favorite
             launcher:packageName="org.lineageos.eleven"
             launcher:className="org.lineageos.eleven.ui.activities.HomeActivity" />
@@ -268,10 +232,6 @@
         launcher:screen="2"
         launcher:x="0"
         launcher:y="-1">
-
-        <favorite
-            launcher:packageName="me.weishu.kernelsu"
-            launcher:className="me.weishu.kernelsu.ui.MainActivity" />
 
         <favorite
             launcher:packageName="org.omnirom.logcat"
