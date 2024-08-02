@@ -14,4 +14,8 @@
     <!-- Gestures -->
     <string name="pref_dt_gesture_title">Double tap to sleep</string>
     <string name="pref_dt_gesture_summary">Double tap on empty space to turn screen off</string>
+
+    <!-- Circle to Search -->
+    <string name="pref_allow_cts_title">Circle to Search</string>
+    <string name="pref_allow_cts_summary">Touch and hold the Home button or the navigation handle to search using the content on your screen.</string>
 </resources>

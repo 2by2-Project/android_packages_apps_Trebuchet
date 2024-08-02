@@ -25,6 +25,7 @@ import static com.android.launcher3.BuildConfig.IS_STUDIO_BUILD;
 import static com.android.launcher3.states.RotationHelper.ALLOW_ROTATION_PREFERENCE_KEY;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,17 +48,21 @@ import androidx.preference.PreferenceFragmentCompat.OnPreferenceStartScreenCallb
 import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceGroup.PreferencePositionCallback;
 import androidx.preference.PreferenceScreen;
+import androidx.preference.SwitchPreferenceCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.launcher3.BuildConfig;
 import com.android.launcher3.Flags;
 import com.android.launcher3.LauncherFiles;
+import com.android.launcher3.LauncherPrefs;
 import com.android.launcher3.R;
 import com.android.launcher3.lineage.LineageUtils;
 import com.android.launcher3.lineage.trust.TrustAppsActivity;
 import com.android.launcher3.states.RotationHelper;
 import com.android.launcher3.util.DisplayController;
 import com.android.launcher3.util.SettingsCache;
+import com.android.quickstep.SystemUiProxy;
+import com.android.quickstep.util.AssistUtils;
 
 /**
  * Settings activity for Launcher. Currently implements the following setting: Allow rotation
@@ -86,6 +91,12 @@ public class SettingsActivity extends FragmentActivity
 
     private static final String KEY_SUGGESTIONS = "pref_suggestions";
     private static final String SUGGESTIONS_PACKAGE = "com.google.android.as";
+
+    private static final String CTS_KEY = "pref_allow_cts";
+    private static boolean mContextualSearchDefValue;
+    private static boolean mCtsEnabled;
+
+    private static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +134,9 @@ public class SettingsActivity extends FragmentActivity
             // Display the fragment as the main content.
             fm.beginTransaction().replace(R.id.content_frame, f).commit();
         }
+        mContext = getApplicationContext();
+        mContextualSearchDefValue = mContext.getResources().getBoolean(
+                com.android.internal.R.bool.config_searchAllEntrypointsEnabledDefault);
     }
 
     private boolean startPreference(String fragment, Bundle args, String key) {
@@ -179,6 +193,8 @@ public class SettingsActivity extends FragmentActivity
 
         private boolean mPreferenceHighlighted = false;
 
+        private SwitchPreferenceCompat mCtsPref;
+
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             if (BuildConfig.IS_DEBUG_DEVICE) {
@@ -208,6 +224,15 @@ public class SettingsActivity extends FragmentActivity
                 if (!initPreference(preference)) {
                     screen.removePreference(preference);
                 }
+            }
+
+            mCtsPref = (SwitchPreferenceCompat) screen.findPreference(CTS_KEY);
+            mCtsEnabled = Settings.Secure.getInt(mContext.getContentResolver(),
+                    Settings.Secure.SEARCH_ALL_ENTRYPOINTS_ENABLED, mContextualSearchDefValue ? 1 : 0) == 1;
+            if (!AssistUtils.newInstance(mContext).isContextualSearchIntentAvailable()) {
+                getPreferenceScreen().removePreference(mCtsPref);
+            } else {
+                mCtsPref.setChecked(mCtsEnabled);
             }
 
             // If the target preference is not in the current preference screen, find the parent
@@ -337,6 +362,12 @@ public class SettingsActivity extends FragmentActivity
 
                 case KEY_SUGGESTIONS:
                     return LineageUtils.isPackageEnabled(getActivity(), SUGGESTIONS_PACKAGE);
+
+                case CTS_KEY:
+                    mCtsEnabled = LauncherPrefs.getPrefs(mContext).getBoolean(CTS_KEY, mContextualSearchDefValue);
+                    Settings.Secure.putInt(mContext.getContentResolver(),
+                            Settings.Secure.SEARCH_ALL_ENTRYPOINTS_ENABLED, mCtsEnabled ? 1 : 0);
+                    return true;
             }
 
             return true;
