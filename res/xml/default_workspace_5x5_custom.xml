@@ -198,8 +198,8 @@
     </folder>
 
     <favorite
-        launcher:packageName="com.coke.cokeon"
-        launcher:className="jp.co.cocacola.vmapp.ui.start.SplashActivity"
+        launcher:packageName="org.lineageos.glimpse"
+        launcher:className="org.lineageos.glimpse.MainActivity"
         launcher:screen="1"
         launcher:x="1"
         launcher:y="-1" />
