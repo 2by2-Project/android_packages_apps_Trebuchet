@@ -68,12 +68,6 @@
         android:key="pref_trust_apps"
         android:title="@string/trust_apps_manager_name" />
 
-    <SwitchPreference
-        android:defaultValue="true"
-        android:key="pref_dock_search"
-        android:title="@string/dock_search_title"
-        android:summary="@string/dock_search_desc" />
-
     <androidx.preference.PreferenceScreen
         android:key="pref_suggestions"
         android:title="@string/pref_suggestions_title"

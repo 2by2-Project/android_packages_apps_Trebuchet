@@ -28,8 +28,6 @@ import static com.android.launcher3.config.FeatureFlags.ENABLE_MULTI_DISPLAY_PAR
 import static com.android.launcher3.folder.ClippedFolderIconLayoutRule.ICON_OVERLAP_FACTOR;
 import static com.android.launcher3.icons.GraphicsUtils.getShapePath;
 import static com.android.launcher3.icons.IconNormalizer.ICON_VISIBLE_AREA_FACTOR;
-import static com.android.launcher3.settings.SettingsActivity.KEY_DOCK_SEARCH;
-import static com.android.launcher3.settings.SettingsActivity.SEARCH_PACKAGE;
 import static com.android.launcher3.testing.shared.ResourceUtils.INVALID_RESOURCE_HANDLE;
 import static com.android.launcher3.testing.shared.ResourceUtils.pxFromDp;
 import static com.android.launcher3.testing.shared.ResourceUtils.roundPxValueFromFloat;
@@ -69,10 +67,8 @@ import com.android.launcher3.util.CellContentDimensions;
 import com.android.launcher3.util.DisplayController;
 import com.android.launcher3.util.DisplayController.Info;
 import com.android.launcher3.util.IconSizeSteps;
-import com.android.launcher3.util.PackageManagerHelper;
 import com.android.launcher3.util.ResourceHelper;
 import com.android.launcher3.util.WindowBounds;
-import com.android.launcher3.lineage.LineageUtils;
 
 import lineageos.providers.LineageSettings;
 
@@ -108,7 +104,6 @@ public class DeviceProfile {
     public final boolean isMultiDisplay;
     public final boolean isTwoPanels;
     public final boolean isQsbInline;
-    public final boolean isQsbDocked;
 
     // Device properties in current orientation
     public final boolean isLandscape;
@@ -543,15 +538,12 @@ public class DeviceProfile {
         hotseatQsbShadowHeight = res.getDimensionPixelSize(R.dimen.qsb_shadow_height);
         hotseatQsbVisualHeight = hotseatQsbHeight - 2 * hotseatQsbShadowHeight;
 
-        isQsbDocked = LineageUtils.isPackageEnabled(context, SEARCH_PACKAGE) ? 
-                LauncherPrefs.getPrefs(context).getBoolean(KEY_DOCK_SEARCH, true) : false;
-
         // Whether QSB might be inline in appropriate orientation (e.g. landscape).
         boolean canQsbInline = (isTwoPanels ? inv.inlineQsb[INDEX_TWO_PANEL_PORTRAIT]
                 || inv.inlineQsb[INDEX_TWO_PANEL_LANDSCAPE]
                 : inv.inlineQsb[INDEX_DEFAULT] || inv.inlineQsb[INDEX_LANDSCAPE])
                 && hotseatQsbHeight > 0;
-        isQsbInline = (isQsbDocked || mIsScalableGrid) && inv.inlineQsb[mTypeIndex] && canQsbInline;
+        isQsbInline = mIsScalableGrid && inv.inlineQsb[mTypeIndex] && canQsbInline;
 
         areNavButtonsInline = isTaskbarPresent && !isGestureMode;
         numShownHotseatIcons =
@@ -588,8 +580,7 @@ public class DeviceProfile {
                     responsiveAspectRatio, heightPx);
         } else {
             hotseatQsbSpace = pxFromDp(inv.hotseatQsbSpace[mTypeIndex], mMetrics);
-            hotseatBarBottomSpace = isQsbDocked ? 
-                    pxFromDp(inv.hotseatBarBottomSpace[mTypeIndex], mMetrics) : 0;
+            hotseatBarBottomSpace = pxFromDp(inv.hotseatBarBottomSpace[mTypeIndex], mMetrics);
             mHotseatBarEdgePaddingPx =
                     isVerticalBarLayout() ? workspacePageIndicatorHeight : 0;
             mHotseatBarWorkspaceSpacePx =
@@ -597,12 +588,8 @@ public class DeviceProfile {
         }
 
         if (!isVerticalBarLayout()) {
-            if (!isQsbDocked) {
-                hotseatQsbSpace = 0;
-            }
-
             // Have a little space between the inset and the QSB
-            if (!isQsbDocked && (mInsets.bottom + minQsbMargin > hotseatBarBottomSpace)) {
+            if (mInsets.bottom + minQsbMargin > hotseatBarBottomSpace) {
                 int availableSpace = hotseatQsbSpace - (mInsets.bottom - hotseatBarBottomSpace);
 
                 // Only change the spaces if there is space
@@ -829,9 +816,7 @@ public class DeviceProfile {
                     - iconExtraSpacePx;
         } else {
             int columns = inv.hotseatColumnSpan[mTypeIndex];
-            return getIconToIconWidthForColumns(columns)
-                    - iconExtraSpacePx
-                    - hotseatBorderSpace;
+            return getIconToIconWidthForColumns(columns) - iconExtraSpacePx;
         }
     }
 
@@ -900,7 +885,7 @@ public class DeviceProfile {
      * necessary.
      */
     public void recalculateHotseatWidthAndBorderSpace() {
-        if (!mIsScalableGrid && !isQsbDocked) return;
+        if (!mIsScalableGrid) return;
 
         int columns = inv.hotseatColumnSpan[mTypeIndex];
         float hotseatWidthPx = getIconToIconWidthForColumns(columns);
@@ -1823,7 +1808,7 @@ public class DeviceProfile {
             // workspace cell vs a hotseat cell.
             float workspaceCellWidth = (float) widthPx / inv.numColumns;
             float hotseatCellWidth = (float) widthPx / numShownHotseatIcons;
-            int hotseatAdjustment = hotseatBorderSpace / 2;
+            int hotseatAdjustment = Math.round((workspaceCellWidth - hotseatCellWidth) / 2);
             hotseatBarPadding.set(
                     hotseatAdjustment + workspacePadding.left + cellLayoutPaddingPx.left
                             + mInsets.left,

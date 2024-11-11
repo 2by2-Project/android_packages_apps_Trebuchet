@@ -64,12 +64,7 @@ public class Hotseat extends CellLayout implements Insettable {
     public Hotseat(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        DeviceProfile dp = mActivity.getDeviceProfile();
-        if (dp.isQsbDocked) {
-            mQsb = LayoutInflater.from(context).inflate(R.layout.search_container_hotseat, this, false);
-        } else {
-            mQsb = LayoutInflater.from(context).inflate(R.layout.empty_view, this, false);
-        }
+        mQsb = LayoutInflater.from(context).inflate(R.layout.search_container_hotseat, this, false);
         addView(mQsb);
     }
 

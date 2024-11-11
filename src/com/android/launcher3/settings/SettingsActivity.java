@@ -82,10 +82,8 @@ public class SettingsActivity extends FragmentActivity
     private static final int DELAY_HIGHLIGHT_DURATION_MILLIS = 600;
     public static final String SAVE_HIGHLIGHTED_KEY = "android:preference_highlighted";
 
-    public static final String KEY_DOCK_SEARCH = "pref_dock_search";
     private static final String KEY_MINUS_ONE = "pref_enable_minus_one";
-
-    public static final String SEARCH_PACKAGE = "com.google.android.googlequicksearchbox";
+    private static final String SEARCH_PACKAGE = "com.google.android.googlequicksearchbox";
     public static final String KEY_TRUST_APPS = "pref_trust_apps";
 
     private static final String KEY_SUGGESTIONS = "pref_suggestions";
@@ -279,7 +277,6 @@ public class SettingsActivity extends FragmentActivity
                     }
                     return false;
 
-                case KEY_DOCK_SEARCH:
                 case KEY_MINUS_ONE:
                     return LineageUtils.isPackageEnabled(getActivity(), SEARCH_PACKAGE);
 
@@ -295,10 +292,7 @@ public class SettingsActivity extends FragmentActivity
                     return true;
 
                 case KEY_SUGGESTIONS:
-                    if (preference.getKey().equals(KEY_SUGGESTIONS)) {
-                        return LineageUtils.isPackageEnabled(getActivity(), SUGGESTIONS_PACKAGE);
-                    }
-                    return LineageUtils.isPackageEnabled(getActivity(), SEARCH_PACKAGE);
+                    return LineageUtils.isPackageEnabled(getActivity(), SUGGESTIONS_PACKAGE);
             }
 
             return true;
