@@ -190,9 +190,6 @@
             launcher:packageName="com.google.android.apps.recorder"
             launcher:className="com.google.android.apps.recorder.ui.recordings.MainActivity" />
         <favorite
-            launcher:packageName="org.lineageos.glimpse"
-            launcher:className="org.lineageos.glimpse.MainActivity" />
-        <favorite
             launcher:packageName="org.lineageos.audiofx"
             launcher:className="org.lineageos.audiofx.activity.ActivityMusic" />
         <favorite
